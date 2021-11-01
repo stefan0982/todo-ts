@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import TodoForm from "./TodoForm";
 import TodoList from "./TodoList";
 import { ITodo } from "./types";
@@ -19,13 +20,13 @@ const TodosContainer: React.FC = () => {
     const addHandler = ( title: string ) => {
         const newTodo: ITodo = {
             title,
-            id: Date.now(),
+            id: uuidv4(),
             completed: false
         }
         setTodos( prevState => [ newTodo, ...prevState ] )
     }
 
-    const removeHandler = ( id: number ) => {
+    const removeHandler = ( id: string ) => {
         setTodos( prevState => prevState.filter( todo => todo.id !== id ) )
     }
     return (

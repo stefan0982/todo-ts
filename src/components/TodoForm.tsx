@@ -10,7 +10,7 @@ const TodoForm: React.FC<ITodoFormProps> = (props) => {
     }
 
     const keyPressHandler = ( event: React.KeyboardEvent<HTMLInputElement> ) => {
-        if ( event.key === 'Enter' ) {
+        if ( event.key === 'Enter' && title.length > 1 ) {
             props.onAdd(title)
             setTitle('')
         }
@@ -39,6 +39,7 @@ const TodoForm: React.FC<ITodoFormProps> = (props) => {
                 id="button-addon2"
                 data-mdb-ripple-color="dark"
                 onClick={clickHandler}
+                disabled={title.length < 1}
             >
                 Add task
             </button>

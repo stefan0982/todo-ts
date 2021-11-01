@@ -1,6 +1,6 @@
 export interface ITodo {
     title: string;
-    id: number
+    id: string
     completed: boolean
 }
 
@@ -10,6 +10,5 @@ export interface ITodoFormProps {
 
 export type TodoListProps = {
     todos: ITodo[]
-    onRemove: ( id: number ) => void
-    // onRemove?(id: number): void
+    onRemove: ( id: string ) => void
 }

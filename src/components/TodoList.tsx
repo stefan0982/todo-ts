@@ -7,7 +7,7 @@ const TodoList: React.FC<TodoListProps> = ( { todos, onRemove } ) => {
         return <p className="note note-warning mt-3">Still no tasks</p>
     }
 
-    const removeHandler = ( event: React.MouseEvent, id: number ) => {
+    const removeHandler = ( event: React.MouseEvent, id: string ) => {
         event.preventDefault()
         onRemove( id )
     }
