@@ -1,40 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import React, { useCallback, useContext } from 'react';
 import TodoForm from "./TodoForm";
 import TodoList from "./TodoList";
-import { ITodo } from "./types";
+import { AppContext } from "../context/AppContext";
 
 const TodosContainer: React.FC = () => {
-    const [ todos, setTodos ] = useState<ITodo[]>( [] );
+    const { todos } = useContext( AppContext )
 
-    useEffect( () => {
-        const saved = JSON.parse( localStorage.getItem( 'todos' ) || '[]' ) as ITodo[]
-        setTodos( saved )
-    }, [] )
+    const filterTodos = useCallback( () => {
+        return [ ...todos.filter( todo => !todo.completed ), ...todos.filter( todo => todo.completed ) ]
+    }, [ todos ] )
 
-    useEffect( () => {
-        localStorage.setItem( 'todos', JSON.stringify( todos ) )
-    }, [ todos ] );
+    const filteredTodos = filterTodos()
 
-
-    const addHandler = ( title: string ) => {
-        const newTodo: ITodo = {
-            title,
-            id: uuidv4(),
-            completed: false
-        }
-        setTodos( prevState => [ newTodo, ...prevState ] )
-    }
-
-    const removeHandler = ( id: string ) => {
-        setTodos( prevState => prevState.filter( todo => todo.id !== id ) )
-    }
     return (
         <>
-            <TodoForm onAdd={ addHandler } />
+            <TodoForm add={ true } />
             <TodoList
-                todos={ todos }
-                onRemove={ removeHandler }
+                todos={ filteredTodos }
             />
         </>
     );
