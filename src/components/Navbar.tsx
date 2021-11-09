@@ -7,7 +7,7 @@ const Navbar: React.FunctionComponent = () => {
                 <a
                     className="navbar-brand"
                     href="/"
-                >React + Typescript Todo app</a>
+                >React + Typescript Todo app + context</a>
             </div>
         </nav>
     );
