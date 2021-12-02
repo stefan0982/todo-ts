@@ -1,7 +1,7 @@
 export interface ITodo {
-    title: string;
-    id: string
-    completed: boolean
+    name: string;
+    id: number;
+    completed: boolean;
 }
 
 export interface ITodoFormProps {
@@ -10,5 +10,4 @@ export interface ITodoFormProps {
 
 export type TodoListProps = {
     todos: ITodo[]
-    onRemove: ( id: string ) => void
 }
