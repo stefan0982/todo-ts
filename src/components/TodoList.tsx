@@ -1,6 +1,7 @@
 import React from 'react';
 import { TodoListProps } from "./types";
 import { todosApi } from "../api";
+import { Link } from "react-router-dom";
 
 const TodoList: React.FC<TodoListProps> = ( { todos } ) => {
 
@@ -17,7 +18,9 @@ const TodoList: React.FC<TodoListProps> = ( { todos } ) => {
       { todos.map( todo =>
         <li key={ todo.id } className="list-group-item d-flex justify-content-between ps-2 p-2">
           <div className="ms-2 me-auto">
-            { todo.name }
+            <Link to={`/todo/${todo.id}`}>
+              { todo.name }
+            </Link>
           </div>
           <i
             onClick={ ( event ) => removeHandler( event, todo.id ) }

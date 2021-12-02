@@ -9,7 +9,7 @@ const TodosContainer: React.FC = () => {
 
   useEffect( () => {
     todosApi.get( '/todos' ).then( res => setTodos( res.data ) )
-  }, [ todos ] );
+  }, [] );
 
   return (
     <>
