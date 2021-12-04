@@ -1,6 +1,6 @@
 import React from 'react';
-import { TodoListProps } from "./types";
-import { todosApi } from "../api";
+import { TodoListProps } from "../types";
+import { todosApi } from "../../api";
 
 const TodoList: React.FC<TodoListProps> = ( { todos } ) => {
 
