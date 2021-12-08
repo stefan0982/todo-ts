@@ -1,24 +1,29 @@
 import React, { useEffect } from 'react';
 import TodoForm from "../TodoForm";
 import TodoList from "../TodoList";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { getAllTodosTrigger, selectTodo } from "../../features/todo/todoSlice";
+import { useAppDispatch } from "../../app/hooks";
+import { addTodoTrigger, editTodoTrigger, getAllTodosTrigger } from "../../features/todo/todoSlice";
 
 const TodosContainer: React.FC = () => {
   const dispatch = useAppDispatch()
 
   useEffect( () => {
-    dispatch(getAllTodosTrigger())
-  }, [dispatch] );
+    dispatch( getAllTodosTrigger() )
+  }, [ dispatch ] );
 
-  const todos = useAppSelector(selectTodo)
+  const handleFormSubmit = (payload: any) => {
+    if (!payload.id) {
+      dispatch(addTodoTrigger(payload))
+    }
+    if (payload.id) {
+      dispatch(editTodoTrigger({ name: payload.name, id: payload.id  }))
+    }
+  }
 
   return (
     <>
-      <TodoForm />
-      <TodoList
-        todos={ todos }
-      />
+      <TodoForm handleFormSubmit={handleFormSubmit}/>
+      <TodoList handleEditItem={handleFormSubmit}/>
     </>
   );
 };

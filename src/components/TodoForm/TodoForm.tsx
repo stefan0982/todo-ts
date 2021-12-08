@@ -1,47 +1,56 @@
-import React, { useState } from 'react';
-import { todosApi } from "../../api";
+import React, { useEffect, useRef, useState } from 'react';
+import { TodoFormProps } from "../types";
 
+const TodoForm: React.FC<TodoFormProps> = ({
+  edit = false,
+  value = '',
+  id = 0,
+  handleFormSubmit,
+  toggleEditable = () => {
+  }
+}) => {
+  const [name, setName] = useState<string>(value);
 
-const TodoForm: React.FC = () => {
-  const [ title, setTitle ] = useState<string>( '' );
-
-  const changeHandler = ( event: React.ChangeEvent<HTMLInputElement> ) => {
-    setTitle( event.target.value )
+  const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setName(event.target.value)
   }
 
-  const keyPressHandler = ( event: React.KeyboardEvent<HTMLInputElement> ) => {
-    if ( event.key === 'Enter' && title.length > 1 ) {
-      todosApi.post( '/todos', { name: title } )
-      setTitle( '' )
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    edit && inputRef.current!.focus()
+  }, [edit]);
+
+  const clickHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+    if (edit) {
+      handleFormSubmit({name, id})
+      toggleEditable()
+    } else {
+      handleFormSubmit({name})
+      setName('')
     }
   }
 
-  const clickHandler = ( event: React.MouseEvent<HTMLButtonElement> ) => {
-    todosApi.post( '/todos', { name: title } )
-    setTitle( '' )
-  }
-
   return (
-    <div className="input-group mt-5">
+    <div className={`input-group ${!edit && 'mt-5'}`}>
       <input
-        value={ title }
-        onChange={ changeHandler }
+        ref={inputRef}
+        value={name}
+        onChange={changeHandler}
         type="text"
         className="form-control"
         placeholder="Create a task"
         aria-label="Create a task"
         aria-describedby="button-addon2"
-        onKeyPress={ keyPressHandler }
       />
       <button
         className="btn btn-outline-primary"
         type="button"
-        id="button-addon2"
         data-mdb-ripple-color="dark"
-        onClick={ clickHandler }
-        disabled={ title.length < 1 }
+        onClick={clickHandler}
+        disabled={name.length < 1}
       >
-        Add task
+        {!edit ? 'Add task' : 'Edit task'}
       </button>
     </div>
   );
